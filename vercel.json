@@ -6,7 +6,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/api/server.js"
+            "destination": "/api/server.mjs"
         },
         {
             "source": "/((?!api|assets|images|favicon.svg|logo.png|opengraph.jpg).*)",
