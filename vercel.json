@@ -1,7 +1,12 @@
 {
-  "version": 2,
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @workspace/widad build",
-  "outputDirectory": "artifacts/widad/dist/public",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+    "version": 2,
+    "installCommand": "pnpm install",
+    "buildCommand": "pnpm --filter @workspace/widad build",
+    "outputDirectory": "artifacts/widad/dist/public",
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
 }
