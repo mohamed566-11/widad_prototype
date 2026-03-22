@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-if (fs.existsSync(frontendPublicDir)) {
+if (process.env["VERCEL"] !== "1" && fs.existsSync(frontendPublicDir)) {
     app.use(express.static(frontendPublicDir));
 
     app.get("*", (req, res, next) => {

@@ -60,7 +60,8 @@ export default function ArticleDetail() {
             <img 
               src={`https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1600&h=900&fit=crop&auto=format&q=80&seed=${article.id}`} 
               alt={article.title} 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s] ease-out" 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform ease-out"
+              style={{ transitionDuration: '2s' }}
             />
             
             <div className="absolute top-6 left-6 z-20">

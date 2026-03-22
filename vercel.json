@@ -1,11 +1,16 @@
 {
     "version": 2,
+    "framework": "vite",
     "installCommand": "pnpm install",
     "buildCommand": "pnpm --filter @workspace/widad build",
     "outputDirectory": "artifacts/widad/dist/public",
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/api/(.*)",
+            "destination": "/api/index.js"
+        },
+        {
+            "source": "/((?!api|images|favicon.svg|logo.png|opengraph.jpg|assets).*)",
             "destination": "/index.html"
         }
     ]
