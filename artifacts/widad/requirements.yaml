@@ -1,0 +1,22 @@
+packages:
+  "react-router-dom": "Required for nested routing, auth guards, and complex navigation"
+  "zustand": "Global state management for auth and user session"
+  "recharts": "Beautiful charts for trackers (mood, weight, period) and admin analytics"
+  "framer-motion": "Smooth page transitions and micro-interactions"
+  "date-fns": "Date formatting and manipulation for mock data and charts"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes without style conflicts"
+  "lucide-react": "Beautiful consistent icon set"
+
+images:
+  - path: "artifacts/widad/public/images/hero-bg.png"
+    description: "Soft abstract gradient background in warm pinks and purples, elegant feminine healthcare theme, blurred flowing shapes"
+    aspect_ratio: "16:9"
+  - path: "artifacts/widad/public/images/ai-avatar.png"
+    description: "Friendly minimalist AI assistant avatar, glowing orb in soft pink and purple, premium tech feel"
+    aspect_ratio: "1:1"
+
+notes:
+  - "App is 100% frontend prototype with mock data"
+  - "Uses react-router-dom instead of wouter as explicitly requested"
+  - "All text and layout is RTL (Arabic)"

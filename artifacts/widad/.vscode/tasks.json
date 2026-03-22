@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build-widad",
+			"type": "shell",
+			"command": "pnpm",
+			"args": [
+				"build"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "build-widad-now",
+			"type": "shell",
+			"command": "pnpm",
+			"args": [
+				"build"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "widad-install",
+			"type": "shell",
+			"command": "pnpm",
+			"args": [
+				"install"
+			]
+		}
+	]
+}

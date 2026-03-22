@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF4E8"/>
+      <stop offset="100%" stop-color="#FFECEF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" rx="40" fill="url(#bg)"/>
+  <path d="M390 470C390 350 460 270 560 270C660 270 740 350 740 470" stroke="#FF8D6D" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="560" cy="250" r="48" fill="#FF8D6D" opacity="0.55"/>
+  <circle cx="660" cy="410" r="42" fill="#FF8D6D" opacity="0.35"/>
+  <rect x="210" y="520" width="780" height="70" rx="16" fill="#FFFFFF" opacity="0.86"/>
+  <text x="170" y="150" font-family="Cairo, sans-serif" font-size="64" font-weight="700" fill="#7A3D2A">متتبع الحمل</text>
+</svg>
