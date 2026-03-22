@@ -34,9 +34,7 @@ export default function AdminLogin() {
         </Link>
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-border">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Settings className="w-8 h-8 text-gray-800" />
-            </div>
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-20 h-20 mx-auto mb-4 shadow-xl shadow-gray-200" />
             <h1 className="text-2xl font-bold text-foreground mb-2">لوحة الإدارة</h1>
             <p className="text-muted-foreground">تسجيل الدخول للمسؤولين فقط</p>
           </div>

@@ -34,9 +34,7 @@ export default function PatientLogin() {
       <div className="hidden md:flex w-1/2 bg-gradient-to-br from-primary/10 to-primary/5 h-screen relative flex-col items-center justify-center p-12 overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20 mix-blend-multiply"></div>
         <div className="relative z-10 text-center flex flex-col items-center max-w-md">
-          <div className="w-20 h-20 bg-primary rounded-3xl flex items-center justify-center text-white mb-8 shadow-xl shadow-primary/30 rotate-3">
-            <span className="text-4xl font-black">و</span>
-          </div>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-24 h-24 mb-8 shadow-2xl shadow-primary/20 hover:scale-105 transition-transform duration-500" />
           <h2 className="text-4xl font-black text-foreground mb-4 leading-tight">رفيقتك في كل مرحلة</h2>
           <p className="text-lg text-foreground/70 mb-8">متتبعات ذكية، أطباء متخصصين، ومجتمع داعم لرحلتك الصحية.</p>
           <div className="flex gap-2">
@@ -117,27 +115,20 @@ export default function PatientLogin() {
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'تسجيل الدخول'}
               </button>
             </form>
-            
-            <div className="mt-8 text-center text-sm text-gray-500 font-medium relative z-10">
+          </div>
+          
+          <div className="mt-8 text-center text-sm text-gray-500 font-medium relative z-10 space-y-3">
+            <div>
               ليس لديكِ حساب؟ <Link to="/auth/patient/register" className="text-primary font-bold hover:underline ml-1">سجلي مجاناً</Link>
+            </div>
+            <div className="pt-4 border-t border-gray-100">
+              <Link to="/demo" className="font-bold text-gray-500 hover:text-primary transition-colors">
+                هل تبحثين عن الحسابات التجريبية؟
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-
-          <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-            <Link to="/demo" className="text-sm font-bold text-gray-500 hover:text-primary transition-colors">
-              هل تبحثين عن الحسابات التجريبية؟
-            </Link>
-            <p className="mt-3 text-sm text-gray-600">
-              لا يوجد لديك حساب؟{' '}
-              <Link to="/auth/patient/register" className="text-primary font-bold hover:underline">إنشاء حساب</Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+}

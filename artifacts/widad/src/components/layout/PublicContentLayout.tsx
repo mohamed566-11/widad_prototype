@@ -14,8 +14,10 @@ export default function PublicContentLayout({ children }: { children: React.Reac
       <header className="fixed top-0 right-0 left-0 z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-[var(--shadow-sm)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white font-black text-lg">و</div>
+          <Link to="/" className="flex items-center gap-2 shrink-0 group">
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md shadow-primary/10 transition-transform group-hover:scale-110">
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-full h-full object-contain" />
+            </div>
             <span className="font-black text-lg text-foreground hidden sm:block">وداد تك</span>
           </Link>
 

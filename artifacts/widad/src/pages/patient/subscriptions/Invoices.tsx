@@ -1,7 +1,13 @@
+// DESIGN DECISION: Soft Futurism + Glassmorphism 2.0
+// Styled the Invoices page with frosted glass tables, glowing headers, and smooth entrance staggered animations.
+
 import { useMemo } from 'react'
-import { Download, Receipt } from 'lucide-react'
+import { Download, Receipt, FileText } from 'lucide-react'
 import { subscriptionsMock } from '@/mock/services/subscriptions.mock'
 import { useAuthStore } from '@/store/auth.store'
+import { m, LazyMotion, domAnimation } from 'framer-motion'
+import { staggerContainer, fadeUpVariant } from '@/lib/animations'
+import { cn } from '@/lib/utils'
 
 export default function Invoices() {
   const { user } = useAuthStore()
@@ -9,58 +15,89 @@ export default function Invoices() {
   const invoices = useMemo(() => subscriptionsMock.getInvoices(user), [user])
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">الفواتير والدفع</h1>
-        <p className="text-sm text-gray-500 font-medium">يتم تحديث الفواتير تلقائيًا بعد أي عملية اشتراك</p>
-      </div>
-
-      <div className="bg-white rounded-3xl shadow-sm border border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-right">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="p-5 font-bold text-gray-600 text-sm">رقم الفاتورة</th>
-                <th className="p-5 font-bold text-gray-600 text-sm">التاريخ</th>
-                <th className="p-5 font-bold text-gray-600 text-sm">الوصف</th>
-                <th className="p-5 font-bold text-gray-600 text-sm">المبلغ</th>
-                <th className="p-5 font-bold text-gray-600 text-sm">الحالة</th>
-                <th className="p-5 font-bold text-gray-600 text-sm text-center">تنزيل</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((invoice, i) => (
-                <tr key={invoice.id} className={i !== invoices.length - 1 ? 'border-b border-gray-50' : ''}>
-                  <td className="p-5">
-                    <div className="flex items-center gap-2 font-bold text-gray-900" dir="ltr">
-                      <Receipt className="w-4 h-4 text-gray-400" />
-                      {invoice.id}
-                    </div>
-                  </td>
-                  <td className="p-5 font-medium text-gray-600">{invoice.date}</td>
-                  <td className="p-5 text-gray-800 font-medium">{invoice.description}</td>
-                  <td className="p-5 font-bold text-foreground">{invoice.amount}</td>
-                  <td className="p-5">
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold border border-green-200">
-                      مدفوعة
-                    </span>
-                  </td>
-                  <td className="p-5 text-center">
-                    <button className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors inline-block">
-                      <Download className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {invoices.length === 0 && (
-          <div className="p-12 text-center text-gray-500 font-medium">
-            لا توجد فواتير لهذه الفترة
+    <LazyMotion features={domAnimation}>
+      <m.div variants={staggerContainer} initial="hidden" animate="show" className="max-w-5xl mx-auto space-y-8 pb-10" dir="rtl">
+        
+        {/* Header Hero */}
+        <m.div variants={fadeUpVariant} className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative">
+          <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-primary/10 rounded-full blur-[60px] pointer-events-none -z-10 text-transparent">glow</div>
+          
+          <div className="flex items-center gap-4">
+             <div className="w-14 h-14 rounded-[1.25rem] bg-indigo-500/10 flex items-center justify-center shadow-inner border border-indigo-500/20">
+               <FileText className="w-7 h-7 text-indigo-500" />
+             </div>
+             <div>
+               <h1 className="text-3xl md:text-5xl font-black font-display text-foreground drop-shadow-sm mb-1">الفواتير والدفع</h1>
+               <p className="text-lg text-muted-foreground font-medium">سجل مدفوعاتك والاشتراكات النشطة</p>
+             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </m.div>
+
+        {/* Table Container */}
+        <m.div variants={fadeUpVariant} className="glass-panel rounded-[2.5rem] p-4 md:p-8 shadow-sm border border-border relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[80px] group-hover:bg-indigo-500/10 transition-colors duration-700 pointer-events-none"></div>
+          
+          <div className="relative z-10 overflow-x-auto hide-scrollbar">
+            {invoices.length > 0 ? (
+              <table className="w-full text-right border-collapse">
+                <thead>
+                  <tr className="border-b border-border/50">
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider">رقم الفاتورة</th>
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider">التاريخ</th>
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider">الوصف</th>
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider">المبلغ</th>
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider">الحالة</th>
+                    <th className="p-5 font-bold font-display text-muted-foreground text-sm uppercase tracking-wider text-center">تنزيل</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoices.map((invoice, i) => (
+                    <m.tr 
+                      key={invoice.id} 
+                      custom={i}
+                      variants={fadeUpVariant}
+                      className={cn(
+                        "group/row hover:bg-white/50 dark:hover:bg-black/20 transition-colors",
+                        i !== invoices.length - 1 ? 'border-b border-border/30' : ''
+                      )}
+                    >
+                      <td className="p-5">
+                        <div className="flex items-center gap-3 font-bold text-foreground bg-secondary/50 px-3 py-1.5 rounded-xl border border-border/50 w-fit shadow-sm" dir="ltr">
+                          <Receipt className="w-4 h-4 text-primary" />
+                          <span className="font-mono text-sm tracking-wider">{invoice.id}</span>
+                        </div>
+                      </td>
+                      <td className="p-5 font-bold text-muted-foreground text-sm">{invoice.date}</td>
+                      <td className="p-5 text-foreground font-black font-display text-lg">{invoice.description}</td>
+                      <td className="p-5 font-black text-primary text-xl" dir="ltr">{invoice.amount}</td>
+                      <td className="p-5">
+                        <span className="bg-green-500/10 text-green-600 dark:text-green-400 px-4 py-1.5 rounded-xl text-sm font-bold border border-green-500/20 shadow-sm flex items-center justify-center w-fit gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                          مدفوعة
+                        </span>
+                      </td>
+                      <td className="p-5 text-center">
+                        <button className="p-3 text-muted-foreground hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-500/10 rounded-xl transition-all inline-block hover:shadow-sm border border-transparent hover:border-indigo-500/20 group/btn">
+                          <Download className="w-5 h-5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        </button>
+                      </td>
+                    </m.tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <m.div variants={fadeUpVariant} className="text-center py-20 px-6 rounded-[2rem] border border-dashed border-border/80 relative overflow-hidden group">
+                 <div className="absolute inset-0 bg-indigo-500/5 group-hover:bg-indigo-500/10 transition-colors duration-500 -z-10"></div>
+                 <div className="w-24 h-24 bg-secondary/80 rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-inner border border-border/50 rotate-3 group-hover:-rotate-3 transition-transform duration-500">
+                   <FileText className="w-10 h-10 text-muted-foreground" />
+                 </div>
+                <h3 className="text-x font-black font-display text-foreground mb-2">لا توجد فواتير لهذه الفترة</h3>
+                <p className="text-muted-foreground">ستظهر فواتير الإشتراكات والمدفوعات الخاصة بك هنا.</p>
+              </m.div>
+            )}
+          </div>
+        </m.div>
+      </m.div>
+    </LazyMotion>
   )
 }

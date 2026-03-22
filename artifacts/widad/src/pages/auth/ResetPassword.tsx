@@ -37,9 +37,7 @@ export default function ResetPassword() {
 
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-border">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <ShieldCheck className="w-8 h-8 text-primary" />
-            </div>
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-20 h-20 mx-auto mb-4 shadow-xl shadow-primary/5" />
             <h1 className="text-2xl font-bold text-foreground mb-2">استعادة كلمة المرور</h1>
             <p className="text-muted-foreground">سنرسل لك رابط إعادة التعيين على بريدك الإلكتروني</p>
           </div>

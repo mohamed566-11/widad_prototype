@@ -1,145 +1,248 @@
-import { useMemo, useState } from 'react'
-import { useAuthStore } from '@/store/auth.store'
+// DESIGN DECISION: Soft Futurism + Glassmorphism 2.0
+// Styled the Fetal Insights page to feel like an advanced, futuristic medical terminal but with soft, empathetic colors and glass UI.
+
+import { useMemo, useState } from 'react';
+import { useAuthStore } from '@/store/auth.store';
+import { m, LazyMotion, domAnimation } from 'framer-motion';
+import { staggerContainer, fadeUpVariant, scaleIn } from '@/lib/animations';
+import { ScanFace, Activity, CalendarDays, FileText, ChevronLeft, BrainCircuit } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const SCAN_HISTORY = [
-  { id: 's1', date: '2026-02-18', title: 'سونار متابعة النمو', summary: 'النمو متوافق مع العمر الحملي.' },
-  { id: 's2', date: '2026-03-05', title: 'سونار تفصيلي', summary: 'الحركة جيدة ولا توجد ملاحظات مقلقة.' },
-  { id: 's3', date: '2026-03-19', title: 'سونار نبض ودوبلر', summary: 'تدفق الدم ضمن الحدود الطبيعية.' },
-]
+  { id: 's1', date: '2026-02-18', title: 'سونار متابعة النمو', summary: 'النمو متوافق مع العمر الحملي. كافة المؤشرات الحيوية ممتازة.' },
+  { id: 's2', date: '2026-03-05', title: 'سونار تفصيلي', summary: 'الحركة جيدة ولا توجد ملاحظات مقلقة. السائل الأمنيوسي ضمن الطبيعي.' },
+  { id: 's3', date: '2026-03-19', title: 'سونار نبض ودوبلر', summary: 'تدفق الدم ضمن الحدود الطبيعية. النبض منتظم وقوي.' },
+];
 
-type ViewerMode = 'front' | 'side' | 'top'
+type ViewerMode = 'front' | 'side' | 'top';
 
 export default function FetalInsights() {
-  const { user } = useAuthStore()
-  const [selectedScanId, setSelectedScanId] = useState(SCAN_HISTORY[0].id)
-  const [viewerMode, setViewerMode] = useState<ViewerMode>('front')
+  const { user } = useAuthStore();
+  const [selectedScanId, setSelectedScanId] = useState(SCAN_HISTORY[0].id);
+  const [viewerMode, setViewerMode] = useState<ViewerMode>('front');
 
   const selectedScan = useMemo(
     () => SCAN_HISTORY.find((scan) => scan.id === selectedScanId) ?? SCAN_HISTORY[0],
     [selectedScanId]
-  )
+  );
 
-  const twins = user?.mockData?.fetalData
+  const twins = user?.mockData?.fetalData;
   const fetusList = twins
     ? [twins.twin1, twins.twin2].filter(Boolean)
-    : [{ name: 'الجنين', weight: '780 جرام', heartRate: 146 }]
+    : [{ name: 'الجنين الأول', weight: '780 جرام', heartRate: 146 }];
 
   return (
-    <div className="max-w-6xl mx-auto pb-10 space-y-6">
-      <div className="flex items-start justify-between flex-wrap gap-3">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">تحليل السونار الجنيني</h1>
-          <p className="text-muted-foreground mt-2">قراءة مبسطة لآخر الفحوصات مع عارض 3D تجريبي.</p>
-        </div>
-        <div className="rounded-xl border border-primary/20 bg-primary/10 text-primary px-4 py-2 text-sm font-bold">
-          الأسبوع الحالي: {user?.pregnancyWeek ?? 26}
-        </div>
-      </div>
+    <LazyMotion features={domAnimation}>
+      <m.div variants={staggerContainer} initial="hidden" animate="show" className="max-w-6xl mx-auto pb-10 space-y-8" dir="rtl">
+        
+        {/* Header Hero */}
+        <m.div variants={fadeUpVariant} className="flex flex-col md:flex-row items-start md:items-end justify-between flex-wrap gap-6 relative">
+          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <section className="bg-white rounded-3xl border border-border shadow-sm p-6">
-            <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-              <h2 className="text-lg font-bold text-foreground">🧬 العارض ثلاثي الأبعاد (Mock)</h2>
-              <div className="flex gap-2">
-                {[
-                  { id: 'front', label: 'أمامي' },
-                  { id: 'side', label: 'جانبي' },
-                  { id: 'top', label: 'علوي' },
-                ].map((item) => (
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full font-bold text-sm mb-3 border border-primary/20 shadow-sm">
+              <BrainCircuit className="w-4 h-4 animate-pulse" />
+              Vision AI Preview
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black font-display text-foreground drop-shadow-sm mb-2">تحليل السونار الجنيني</h1>
+            <p className="text-lg text-muted-foreground max-w-xl">قراءة مبسطة ومدعومة بالذكاء الاصطناعي لآخر الفحوصات مع عرض ثلاثي الأبعاد تجريبي.</p>
+          </div>
+          
+          <div className="relative z-10 glass-card px-6 py-4 rounded-2xl border border-primary/20 shadow-sm flex items-center gap-4">
+             <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shadow-inner">
+               <CalendarDays className="w-6 h-6 text-primary" />
+             </div>
+             <div>
+               <p className="text-sm font-bold text-muted-foreground">أسبوع الحمل</p>
+               <p className="text-2xl font-black font-display text-primary">{user?.pregnancyWeek ?? 26}</p>
+             </div>
+          </div>
+        </m.div>
+
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="lg:col-span-2 space-y-6 md:space-y-8">
+            
+            {/* 3D Viewer Mock */}
+            <m.section variants={scaleIn} className="glass-panel p-6 md:p-8 rounded-[2.5rem] border border-border shadow-[var(--shadow-glass)] relative overflow-hidden group">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 relative z-10">
+                <h2 className="text-xl md:text-2xl font-black font-display text-foreground flex items-center gap-3">
+                  <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><ScanFace className="w-6 h-6 text-foreground" /></div>
+                  العارض ثلاثي الأبعاد <span className="text-sm bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20 font-bold ml-2 -translate-y-2 inline-block">BETA</span>
+                </h2>
+                <div className="flex bg-secondary/50 p-1 rounded-xl border border-border/50 backdrop-blur-sm self-stretch sm:self-auto">
+                  {[
+                    { id: 'front', label: 'أمامي' },
+                    { id: 'side', label: 'جانبي' },
+                    { id: 'top', label: 'علوي' },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => setViewerMode(item.id as ViewerMode)}
+                      className={cn(
+                        "rounded-lg px-4 py-2 text-sm font-bold transition-all duration-300 flex-1 sm:flex-none",
+                        viewerMode === item.id
+                          ? 'bg-white dark:bg-black text-foreground shadow-sm border border-border/50'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-black/30'
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="h-80 md:h-96 rounded-[2rem] border border-border/50 bg-black/5 dark:bg-black/40 relative overflow-hidden group/viewer shadow-inner">
+                {/* 3D Mock Environment */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-50 pointer-events-none"></div>
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/20 to-transparent pointer-events-none"></div>
+                
+                <div
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                    viewerMode === 'front' ? 'scale-100 rotate-0' : viewerMode === 'side' ? 'scale-105 rotate-12 drop-shadow-2xl' : 'scale-95 -rotate-6'
+                  )}
+                >
+                  <div className="relative w-56 h-56 md:w-64 md:h-64 group-hover/viewer:scale-105 transition-transform duration-1000">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/60 to-accent/60 blur-[30px] opacity-60 mix-blend-multiply dark:mix-blend-screen animate-pulse" />
+                    <div className="absolute inset-4 rounded-full bg-white/10 dark:bg-black/10 border border-white/30 dark:border-white/10 backdrop-blur-sm shadow-[inset_0_0_50px_rgba(255,255,255,0.2)]" />
+                    <div className="absolute top-[20%] left-[25%] w-12 h-12 rounded-full bg-primary/40 blur-md animate-pulse delay-75" />
+                    <div className="absolute bottom-[25%] right-[25%] w-16 h-16 rounded-full bg-accent/40 blur-lg animate-pulse delay-150" />
+                    <div className="absolute top-[40%] right-[30%] w-8 h-8 rounded-full bg-white/20 blur-sm mix-blend-overlay" />
+                    
+                    {/* Faux scanning lines */}
+                    <div className="absolute inset-0 overflow-hidden rounded-full rounded-b-none opacity-50">
+                        <div className="w-full h-1 bg-white/40 blur-[1px] shadow-[0_0_10px_rgba(255,255,255,0.8)] animate-[scan_3s_ease-in-out_infinite]" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Overlays */}
+                <div className="absolute top-4 left-4 flex gap-2">
+                   <div className="glass-card rounded-xl px-3 py-1.5 text-xs font-bold text-primary flex items-center gap-1.5 border border-primary/20 shadow-sm">
+                     <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping"></div>
+                     Live Scan
+                   </div>
+                </div>
+                
+                <div className="absolute bottom-4 right-4 glass-card rounded-xl p-3 border border-border/50 text-xs font-medium text-foreground max-w-[200px]">
+                   <p className="flex justify-between border-b border-border/50 pb-1 mb-1"><span>BPD:</span> <span className="font-bold">62 mm</span></p>
+                   <p className="flex justify-between border-b border-border/50 pb-1 mb-1"><span>HC:</span> <span className="font-bold">230 mm</span></p>
+                   <p className="flex justify-between"><span>AC:</span> <span className="font-bold">210 mm</span></p>
+                </div>
+              </div>
+            </m.section>
+
+            {/* Current Measurements */}
+            <m.section variants={fadeUpVariant} className="glass-panel p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm">
+              <h2 className="text-xl md:text-2xl font-black font-display text-foreground mb-6 flex items-center gap-3">
+                 <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><Activity className="w-6 h-6 text-foreground" /></div>
+                 القياسات الحيوية الحالية
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {fetusList.map((fetus: any, index: number) => (
+                  <div key={fetus.name} className="glass-card rounded-[1.5rem] border border-border p-5 space-y-4 hover:border-primary/30 transition-colors group relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-[30px] pointer-events-none group-hover:bg-primary/10 transition-colors"></div>
+                    
+                    <div className="flex justify-between items-center relative z-10">
+                      <p className="font-black font-display text-lg text-foreground flex items-center gap-2">
+                        <span className="text-2xl">👶</span> {fetus.name}
+                      </p>
+                      <span className="font-bold text-sm bg-secondary px-2 py-1 rounded-lg text-muted-foreground border border-border/50">#0{index + 1}</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-3 relative z-10">
+                       <div className="bg-white/50 dark:bg-black/20 p-3 rounded-xl border border-border/50">
+                         <p className="text-xs font-bold text-muted-foreground mb-1">الوزن التقديري</p>
+                         <p className="text-lg font-black font-display text-foreground">{fetus.weight}</p>
+                       </div>
+                       <div className="bg-white/50 dark:bg-black/20 p-3 rounded-xl border border-border/50">
+                         <p className="text-xs font-bold text-muted-foreground mb-1">معدل النبض</p>
+                         <p className="text-lg font-black font-display text-foreground flex items-baseline gap-1">
+                           {fetus.heartRate} <span className="text-xs text-muted-foreground">bpm</span>
+                         </p>
+                       </div>
+                    </div>
+                    
+                    <div className="relative z-10">
+                      <div className="flex justify-between text-xs font-bold text-muted-foreground mb-1">
+                        <span>مستوى النبض</span>
+                        <span>{Math.round((Number(fetus.heartRate) / 180) * 100)}%</span>
+                      </div>
+                      <div className="h-2.5 rounded-full bg-secondary overflow-hidden border border-border/50 p-px">
+                        <m.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${Math.min(100, (Number(fetus.heartRate) / 180) * 100)}%` }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="h-full bg-gradient-to-r from-primary to-accent rounded-full shadow-[0_0_10px_rgba(236,72,153,0.5)]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </m.section>
+          </div>
+
+          <div className="space-y-6 md:space-y-8">
+            
+            {/* History */}
+            <m.section variants={fadeUpVariant} className="glass-panel p-6 rounded-[2.5rem] border border-border shadow-sm">
+              <h3 className="text-xl font-black font-display text-foreground mb-4 flex items-center gap-3">
+                 <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><FileText className="w-5 h-5 text-foreground" /></div>
+                 سجل الفحوصات
+              </h3>
+              <div className="space-y-3">
+                {SCAN_HISTORY.map((scan) => (
                   <button
-                    key={item.id}
-                    onClick={() => setViewerMode(item.id as ViewerMode)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-bold border transition-colors ${
-                      viewerMode === item.id
-                        ? 'border-primary bg-primary/10 text-primary'
-                        : 'border-gray-200 text-gray-600 hover:bg-gray-50'
-                    }`}
+                    key={scan.id}
+                    onClick={() => setSelectedScanId(scan.id)}
+                    className={cn(
+                      "w-full text-right rounded-[1.25rem] border p-4 transition-all duration-300 flex items-center justify-between group",
+                      selectedScan.id === scan.id
+                        ? 'border-primary/50 bg-primary/5 shadow-sm ring-1 ring-primary/20'
+                        : 'border-border bg-white/30 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 hover:border-primary/30'
+                    )}
                   >
-                    {item.label}
+                    <div>
+                      <p className={cn("text-base font-bold font-display mb-1 transition-colors", selectedScan.id === scan.id ? 'text-primary' : 'text-foreground')}>{scan.title}</p>
+                      <p className="text-xs font-bold text-muted-foreground">{scan.date}</p>
+                    </div>
+                    <ChevronLeft className={cn("w-5 h-5 transition-transform duration-300", selectedScan.id === scan.id ? 'text-primary translate-x-1' : 'text-muted-foreground group-hover:translate-x-1')} />
                   </button>
                 ))}
               </div>
-            </div>
+            </m.section>
 
-            <div className="h-72 rounded-2xl border border-gray-100 bg-linear-to-br from-pink-50 via-rose-50 to-amber-50 relative overflow-hidden">
-              <div
-                className={`absolute inset-0 flex items-center justify-center transition-transform duration-500 ${
-                  viewerMode === 'front' ? 'rotate-0' : viewerMode === 'side' ? 'rotate-12' : '-rotate-6'
-                }`}
-              >
-                <div className="relative w-44 h-44">
-                  <div className="absolute inset-0 rounded-full bg-linear-to-br from-pink-300 to-rose-500 opacity-70 blur-sm" />
-                  <div className="absolute inset-6 rounded-full bg-white/35 border border-white/50" />
-                  <div className="absolute top-10 left-12 w-8 h-8 rounded-full bg-rose-200/80" />
-                  <div className="absolute bottom-10 right-12 w-10 h-10 rounded-full bg-pink-200/70" />
+            {/* Summary details */}
+            <m.section variants={fadeUpVariant} className="glass-panel p-6 rounded-[2.5rem] border border-border shadow-sm space-y-5 relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-[40px] pointer-events-none"></div>
+               
+              <h3 className="text-xl font-black font-display text-foreground flex items-center gap-3 relative z-10">
+                 <div className="p-1.5 bg-primary/10 rounded-lg shadow-sm border border-primary/20"><BrainCircuit className="w-5 h-5 text-primary" /></div>
+                 ملخص الذكاء الاصطناعي
+              </h3>
+              
+              <div className="rounded-[1.25rem] bg-white/50 dark:bg-black/20 border border-border p-5 relative z-10 shadow-sm transition-all duration-300 hover:shadow-md">
+                <div className="flex items-center justify-between mb-3 border-b border-border/50 pb-3">
+                   <p className="text-base font-black font-display text-foreground">{selectedScan.title}</p>
+                   <span className="text-xs font-bold bg-secondary px-2 py-1 rounded-md text-muted-foreground">{selectedScan.date}</span>
                 </div>
+                <p className="text-sm font-medium text-foreground leading-relaxed">{selectedScan.summary}</p>
               </div>
-              <div className="absolute top-3 left-3 rounded-lg bg-white/70 border border-white/70 px-3 py-1.5 text-xs font-bold text-rose-700">
-                3D Preview
+              
+              <div className="rounded-[1.25rem] bg-gradient-to-r from-emerald-500/10 to-green-500/5 border border-emerald-500/20 p-5 relative z-10 shadow-sm">
+                <p className="font-black font-display text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2">
+                   <span className="text-xl">💡</span> توصية وداد
+                </p>
+                <p className="text-sm font-medium text-emerald-800/80 dark:text-emerald-200/80 leading-relaxed">
+                  استمري على نفس نمط المتابعة، وكرري السونار خلال أسبوعين أو حسب توصية الطبيبة المعالجة.
+                </p>
               </div>
-            </div>
-          </section>
-
-          <section className="bg-white rounded-3xl border border-border shadow-sm p-6">
-            <h2 className="text-lg font-bold text-foreground mb-4">📊 القياسات الحالية</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {fetusList.map((fetus: any) => (
-                <div key={fetus.name} className="rounded-2xl border border-gray-100 bg-gray-50 p-4 space-y-2">
-                  <p className="font-bold text-foreground">{fetus.name}</p>
-                  <p className="text-sm text-gray-700">
-                    الوزن التقديري: <span className="font-bold text-gray-900">{fetus.weight}</span>
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    النبض: <span className="font-bold text-gray-900">{fetus.heartRate} نبضة/دقيقة</span>
-                  </p>
-                  <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
-                    <div
-                      className="h-full bg-primary"
-                      style={{ width: `${Math.min(100, (Number(fetus.heartRate) / 180) * 100)}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+            </m.section>
+            
+          </div>
         </div>
-
-        <div className="space-y-6">
-          <section className="bg-white rounded-3xl border border-border shadow-sm p-6">
-            <h3 className="font-bold text-foreground mb-4">🗂️ سجل الفحوصات</h3>
-            <div className="space-y-2">
-              {SCAN_HISTORY.map((scan) => (
-                <button
-                  key={scan.id}
-                  onClick={() => setSelectedScanId(scan.id)}
-                  className={`w-full text-right rounded-xl border px-3 py-2 transition-colors ${
-                    selectedScan.id === scan.id
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <p className="text-sm font-bold">{scan.title}</p>
-                  <p className="text-xs opacity-80">{scan.date}</p>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="bg-white rounded-3xl border border-border shadow-sm p-6 space-y-4">
-            <h3 className="font-bold text-foreground">💡 ملخص الفحص المختار</h3>
-            <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
-              <p className="text-sm font-bold text-foreground mb-1">{selectedScan.title}</p>
-              <p className="text-xs text-gray-600 mb-2">{selectedScan.date}</p>
-              <p className="text-sm text-gray-700 leading-relaxed">{selectedScan.summary}</p>
-            </div>
-            <div className="rounded-xl bg-green-50 border border-green-100 p-4 text-sm text-green-800">
-              <p className="font-bold mb-1">توصية وداد</p>
-              استمري على نفس نمط المتابعة، وكرري السونار خلال أسبوعين أو حسب توصية الطبيبة.
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  )
+      </m.div>
+    </LazyMotion>
+  );
 }

@@ -1,15 +1,15 @@
-import { ReactNode } from 'react'
+// DESIGN DECISION: Soft Futurism + Glassmorphism 2.0
+// Incorporating Framer Motion layoutId for active link backgrounds, staggered list animations,
+// and a frosted glass aesthetic for the sidebar and main container.
+// Removed harsh borders and replaced with `glass-panel` and `shadow-glass`.
+
+import { ReactNode, useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/auth.store'
-import { LogOut, Menu } from 'lucide-react'
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { LogOut, Menu, X } from 'lucide-react'
+import { m, AnimatePresence, LazyMotion, domAnimation } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { fadeUpVariant, staggerContainer, customEase } from '@/lib/animations'
 
 interface SidebarItem {
   icon: ReactNode;
@@ -22,111 +22,166 @@ export function SidebarLayout({ items, children, title }: { items: SidebarItem[]
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
   const [isOpen, setIsOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Handle responsive sidebar behavior
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleLogout = () => {
     logout()
     navigate('/')
   }
 
+  const sidebarAnimation = isMobile 
+    ? { initial: { x: '100%' }, animate: { x: 0 }, exit: { x: '100%' } } 
+    : { initial: { x: 0 }, animate: { x: 0 }, exit: { x: 0 } }
+
   return (
-    <div className="flex h-screen bg-gray-50/50">
-      {/* Mobile Backdrop */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden"
-          />
-        )}
-      </AnimatePresence>
+    <LazyMotion features={domAnimation}>
+      <div className="flex h-screen bg-background overflow-hidden relative selection:bg-primary/20" dir="rtl">
+        
+        {/* Animated Background Mesh */}
+        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-primary/5 rounded-full blur-[120px] pointer-events-none animate-pulse-glow" style={{ animationDuration: '10s' }} />
+        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-accent/10 rounded-full blur-[100px] pointer-events-none animate-float" style={{ animationDuration: '12s' }} />
 
-      {/* Sidebar */}
-      <motion.aside
-        className={cn(
-          "fixed inset-y-0 right-0 z-50 w-72 bg-white/80 backdrop-blur-xl border-l border-white/20 shadow-[var(--shadow-lg)] flex flex-col transition-transform lg:translate-x-0 lg:static",
-          isOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="p-6">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20">
-              و
-            </div>
-            <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-l from-primary to-accent">
-              وداد تك
-            </span>
-          </Link>
-        </div>
+        {/* Mobile Backdrop */}
+        <AnimatePresence>
+          {isOpen && isMobile && (
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-md lg:hidden"
+            />
+          )}
+        </AnimatePresence>
 
-        <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-          {items.map((item) => {
-            const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/')
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300",
-                  isActive 
-                    ? "bg-primary text-white font-bold shadow-md shadow-primary/20 scale-[1.02]" 
-                    : "text-muted-foreground hover:bg-gray-50/80 hover:text-foreground font-medium hover:scale-[1.01]"
+        {/* Sidebar */}
+        <AnimatePresence>
+          {(isOpen || !isMobile) && (
+            <m.aside
+              {...sidebarAnimation}
+              transition={{ duration: 0.4, ease: customEase }}
+              className={cn(
+                "fixed inset-y-0 right-0 z-50 w-72 glass-panel border-r-0 border-l border-white/20 shadow-glass flex flex-col lg:static lg:bg-transparent lg:shadow-none lg:border-l lg:backdrop-blur-none",
+                isMobile ? "bg-white/70 dark:bg-black/70" : ""
+              )}
+            >
+              <div className="p-6 flex items-center justify-between">
+                <Link to="/" className="flex items-center gap-3 group">
+                  <div className="relative overflow-hidden rounded-xl bg-white p-1 shadow-[var(--shadow-soft)] transition-transform group-hover:scale-105 duration-300">
+                    <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-10 h-10 object-contain" />
+                  </div>
+                  <span className="text-2xl font-black font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-l from-primary via-accent to-secondary animate-gradient-x">
+                    وداد تك
+                  </span>
+                </Link>
+                {isMobile && (
+                  <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-6 h-6" />
+                  </button>
                 )}
-              >
-                <span className={cn("transition-colors", isActive ? "text-white" : "text-gray-400 group-hover:text-primary")}>
-                  {item.icon}
-                </span>
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-
-        <div className="p-4 border-t border-gray-100 bg-white/50">
-          <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50/80 mb-3 border border-gray-100">
-            <img src={user?.avatar || 'https://i.pravatar.cc/150'} alt={user?.name} className="w-11 h-11 rounded-xl object-cover shadow-sm border border-white" />
-            <div className="flex-1 overflow-hidden">
-              <p className="font-bold text-sm text-foreground truncate">{user?.name}</p>
-              <p className="text-xs text-muted-foreground truncate font-medium">{user?.email}</p>
-            </div>
-          </div>
-          <button 
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-300"
-          >
-            <LogOut className="w-4 h-4" />
-            تسجيل الخروج
-          </button>
-        </div>
-      </motion.aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50/30">
-        {/* Mobile Header */}
-        <header className="lg:hidden flex items-center justify-between p-4 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-[var(--shadow-sm)] z-30">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-black text-sm shadow-md shadow-primary/20">و</div>
-            <span className="font-black text-lg text-foreground">وداد</span>
-          </div>
-          <button onClick={() => setIsOpen(true)} className="p-2 -mr-2 text-primary bg-primary/5 rounded-xl hover:bg-primary/10 transition-colors">
-            <Menu className="w-6 h-6" />
-          </button>
-        </header>
-
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="max-w-6xl mx-auto space-y-6">
-            {title && (
-              <div className="flex items-center justify-between bg-white rounded-3xl p-6 shadow-[var(--shadow-sm)] border border-gray-100">
-                <h1 className="text-2xl font-black text-foreground">{title}</h1>
               </div>
-            )}
-            {children}
-          </div>
-        </main>
+
+              <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-2 relative">
+                {items.map((item) => {
+                  const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => isMobile && setIsOpen(false)}
+                      className={cn(
+                        "relative flex items-center gap-3 px-4 py-3.5 rounded-[1.25rem] transition-colors duration-300 group font-medium text-sm",
+                        isActive ? "text-primary-foreground font-bold shadow-soft" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {isActive && (
+                        <m.div 
+                          layoutId="sidebar-active"
+                          className="absolute inset-0 bg-primary/90 shadow-glow rounded-[1.25rem] z-0"
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                      
+                      <span className={cn("relative z-10 transition-colors duration-300", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")}>
+                        {item.icon}
+                      </span>
+                      <span className="relative z-10">{item.label}</span>
+                    </Link>
+                  )
+                })}
+              </nav>
+
+              <div className="p-5 mt-auto border-t border-border/50">
+                <div className="flex items-center gap-3 p-3 rounded-2xl glass-card mb-4">
+                  <img src={user?.avatar || 'https://i.pravatar.cc/150'} alt={user?.name} className="w-11 h-11 rounded-xl object-cover shadow-sm border border-white/50" />
+                  <div className="flex-1 overflow-hidden">
+                    <p className="font-bold font-display text-sm text-foreground truncate drop-shadow-sm">{user?.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-destructive hover:bg-destructive hover:text-destructive-foreground rounded-[1.25rem] transition-all duration-300 group"
+                >
+                  <LogOut className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                  تسجيل الخروج
+                </button>
+              </div>
+            </m.aside>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+          
+          {/* Mobile Header Overlay */}
+          <m.header 
+            initial={{ y: -50 }}
+            animate={{ y: 0 }}
+            className="lg:hidden flex items-center justify-between p-4 glass-panel border-b border-border shadow-sm z-30"
+          >
+            <div className="flex items-center gap-3">
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-9 h-9 rounded-lg object-contain shadow-sm bg-white p-0.5" />
+              <span className="font-black font-display text-lg bg-clip-text text-transparent bg-gradient-to-l from-primary to-accent">وداد</span>
+            </div>
+            <button onClick={() => setIsOpen(true)} className="p-2 text-primary hover:bg-primary/10 rounded-xl transition-colors">
+              <Menu className="w-6 h-6" />
+            </button>
+          </m.header>
+
+          <main className="flex-1 overflow-y-auto w-full relative">
+            <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
+              {title && (
+                <m.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: customEase }}
+                  className="flex items-center justify-between glass-card rounded-3xl p-6"
+                >
+                  <h1 className="text-3xl font-black font-display text-foreground tracking-tight drop-shadow-sm">{title}</h1>
+                </m.div>
+              )}
+              
+              <m.div 
+                variants={staggerContainer} 
+                initial="hidden" 
+                animate="show"
+                key={location.pathname} // re-trigger animations on route change
+              >
+                {children}
+              </m.div>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </LazyMotion>
   )
 }

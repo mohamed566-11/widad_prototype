@@ -32,9 +32,7 @@ export default function DoctorLogin() {
       <div className="hidden md:flex w-1/2 bg-gradient-to-br from-blue-500/10 to-blue-500/5 h-screen relative flex-col items-center justify-center p-12 overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20 mix-blend-multiply"></div>
         <div className="relative z-10 text-center flex flex-col items-center max-w-md">
-          <div className="w-20 h-20 bg-blue-500 rounded-3xl flex items-center justify-center text-white mb-8 shadow-xl shadow-blue-500/30 rotate-3">
-            <Stethoscope className="w-10 h-10" />
-          </div>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Widad Logo" className="w-24 h-24 mb-8 shadow-2xl shadow-blue-500/20 hover:scale-105 transition-transform duration-500" />
           <h2 className="text-4xl font-black text-foreground mb-4 leading-tight">عيادتك الرقمية المتكاملة</h2>
           <p className="text-lg text-foreground/70 mb-8">تابعي مرضاك، أدي استشارات، وانشري المعرفة من منصة واحدة.</p>
           <div className="flex gap-2">

@@ -101,118 +101,125 @@ const Fallback = () => (
   </div>
 )
 
+import { useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+
 function AppRoutes() {
+  const location = useLocation()
+  
   return (
-    <Suspense fallback={<Fallback />}>
-      <Routes>
-        {/* ── Public ── */}
-        <Route element={<PublicContentRoute />}>
-          <Route path="/"                element={<LandingPage />} />
-          <Route path="/about"            element={<AboutUs />} />
-          <Route path="/life-stages"      element={<LifeStages />} />
-          <Route path="/life-stages/:stage" element={<StageDetails />} />
-          <Route path="/trackers"         element={<PublicTrackers />} />
-          <Route path="/contact"          element={<ContactUs />} />
-          <Route path="/pricing"          element={<PublicPricing />} />
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<Fallback />}>
+        <Routes location={location} key={location.pathname}>
+          {/* ── Public ── */}
+          <Route element={<PublicContentRoute />}>
+            <Route path="/"                element={<LandingPage />} />
+            <Route path="/about"            element={<AboutUs />} />
+            <Route path="/life-stages"      element={<LifeStages />} />
+            <Route path="/life-stages/:stage" element={<StageDetails />} />
+            <Route path="/trackers"         element={<PublicTrackers />} />
+            <Route path="/contact"          element={<ContactUs />} />
+            <Route path="/pricing"          element={<PublicPricing />} />
 
-          {/* ── Public Doctors & Articles (no login needed) ── */}
-          <Route path="/doctors"          element={<DoctorSearch />} />
-          <Route path="/doctors/:id"      element={<DoctorProfile />} />
-          <Route path="/articles"         element={<ArticlesList />} />
-          <Route path="/articles/:id"     element={<ArticleDetail />} />
-        </Route>
+            {/* ── Public Doctors & Articles (no login needed) ── */}
+            <Route path="/doctors"          element={<DoctorSearch />} />
+            <Route path="/doctors/:id"      element={<DoctorProfile />} />
+            <Route path="/articles"         element={<ArticlesList />} />
+            <Route path="/articles/:id"     element={<ArticleDetail />} />
+          </Route>
 
-        <Route path="/demo" element={<DemoLogin />} />
-        <Route path="/auth" element={<RoleSelect />} />
-        <Route path="/auth/patient/login" element={<PatientLogin />} />
-        <Route path="/auth/patient/register" element={<PatientRegister />} />
-        <Route path="/auth/patient/otp" element={<VerifyOTP />} />
-        <Route path="/auth/patient/reset" element={<ResetPassword />} />
-        <Route path="/auth/doctor/login" element={<DoctorLogin />} />
-        <Route path="/auth/admin/login" element={<AdminLogin />} />
+          <Route path="/demo" element={<DemoLogin />} />
+          <Route path="/auth" element={<RoleSelect />} />
+          <Route path="/auth/patient/login" element={<PatientLogin />} />
+          <Route path="/auth/patient/register" element={<PatientRegister />} />
+          <Route path="/auth/patient/otp" element={<VerifyOTP />} />
+          <Route path="/auth/patient/reset" element={<ResetPassword />} />
+          <Route path="/auth/doctor/login" element={<DoctorLogin />} />
+          <Route path="/auth/admin/login" element={<AdminLogin />} />
 
-        {/* ── Patient ── */}
-        <Route element={<ProtectedRoute role="patient" />}>
-          <Route element={<PatientLayout />}>
-            <Route path="/patient" element={<Navigate to="/patient/dashboard" replace />} />
-            <Route path="/patient/dashboard"                 element={<PatientDashboard />} />
-            <Route path="/patient/notifications"             element={<Notifications />} />
-            <Route path="/patient/profile"                   element={<ProfilePage />} />
-            <Route path="/patient/profile/*"                 element={<ProfilePage />} />
+          {/* ── Patient ── */}
+          <Route element={<ProtectedRoute role="patient" />}>
+            <Route element={<PatientLayout />}>
+              <Route path="/patient" element={<Navigate to="/patient/dashboard" replace />} />
+              <Route path="/patient/dashboard"                 element={<PatientDashboard />} />
+              <Route path="/patient/notifications"             element={<Notifications />} />
+              <Route path="/patient/profile"                   element={<ProfilePage />} />
+              <Route path="/patient/profile/*"                 element={<ProfilePage />} />
 
-            <Route path="/patient/trackers"                  element={<TrackersHub />} />
-            <Route path="/patient/trackers/mood"             element={<MoodTracker />} />
-            <Route path="/patient/trackers/weight"           element={<WeightTracker />} />
-            <Route path="/patient/trackers/period"           element={<PeriodTracker />} />
-            <Route path="/patient/trackers/fertility"        element={<FertilityTracker />} />
-            <Route path="/patient/trackers/pregnancy"        element={<PregnancyTracker />} />
+              <Route path="/patient/trackers"                  element={<TrackersHub />} />
+              <Route path="/patient/trackers/mood"             element={<MoodTracker />} />
+              <Route path="/patient/trackers/weight"           element={<WeightTracker />} />
+              <Route path="/patient/trackers/period"           element={<PeriodTracker />} />
+              <Route path="/patient/trackers/fertility"        element={<FertilityTracker />} />
+              <Route path="/patient/trackers/pregnancy"        element={<PregnancyTracker />} />
 
-            <Route path="/patient/doctors"                   element={<DoctorSearch />} />
-            <Route path="/patient/doctors/:id"               element={<DoctorProfile />} />
-            <Route path="/patient/book/:id"                  element={<BookConsultation />} />
-            <Route path="/patient/consultations"             element={<ConsultationsList />} />
-            <Route path="/patient/consultations/:id"         element={<ConsultationDetail />} />
+              <Route path="/patient/doctors"                   element={<DoctorSearch />} />
+              <Route path="/patient/doctors/:id"               element={<DoctorProfile />} />
+              <Route path="/patient/book/:id"                  element={<BookConsultation />} />
+              <Route path="/patient/consultations"             element={<ConsultationsList />} />
+              <Route path="/patient/consultations/:id"         element={<ConsultationDetail />} />
 
-            <Route path="/patient/ai"                        element={<AiChat />} />
-            <Route path="/patient/risk"                      element={<RiskAssessment />} />
-            <Route path="/patient/fetal"                     element={<FetalAnalysis />} />
+              <Route path="/patient/ai"                        element={<AiChat />} />
+              <Route path="/patient/risk"                      element={<RiskAssessment />} />
+              <Route path="/patient/fetal"                     element={<FetalAnalysis />} />
 
-            <Route path="/patient/community/guidelines"      element={<Guidelines />} />
-            <Route element={<GuidelinesGuard />}>
-              <Route path="/patient/community"               element={<CommunityFeed />} />
-              <Route path="/patient/community/circles/:id"   element={<CirclePage />} />
-              <Route path="/patient/community/post/:id"      element={<PostDetail />} />
-              <Route path="/patient/community/new"           element={<CreatePost />} />
-              <Route path="/patient/community/create"        element={<CreatePost />} />
-              <Route path="/patient/community/saved"         element={<SavedPosts />} />
+              <Route path="/patient/community/guidelines"      element={<Guidelines />} />
+              <Route element={<GuidelinesGuard />}>
+                <Route path="/patient/community"               element={<CommunityFeed />} />
+                <Route path="/patient/community/circles/:id"   element={<CirclePage />} />
+                <Route path="/patient/community/post/:id"      element={<PostDetail />} />
+                <Route path="/patient/community/new"           element={<CreatePost />} />
+                <Route path="/patient/community/create"        element={<CreatePost />} />
+                <Route path="/patient/community/saved"         element={<SavedPosts />} />
+              </Route>
+
+              <Route path="/patient/subscriptions"             element={<PricingPage />} />
+              <Route path="/patient/plans"                     element={<PricingPage />} />
+              <Route path="/patient/checkout"                  element={<CheckoutPage />} />
+              <Route path="/patient/subscription"              element={<MySubscription />} />
+              <Route path="/patient/invoices"                  element={<Invoices />} />
+
+              <Route path="/patient/articles"                  element={<ArticlesList />} />
+              <Route path="/patient/articles/:id"              element={<ArticleDetail />} />
             </Route>
-
-            <Route path="/patient/subscriptions"             element={<PricingPage />} />
-            <Route path="/patient/plans"                     element={<PricingPage />} />
-            <Route path="/patient/checkout"                  element={<CheckoutPage />} />
-            <Route path="/patient/subscription"              element={<MySubscription />} />
-            <Route path="/patient/invoices"                  element={<Invoices />} />
-
-            <Route path="/patient/articles"                  element={<ArticlesList />} />
-            <Route path="/patient/articles/:id"              element={<ArticleDetail />} />
           </Route>
-        </Route>
 
-        {/* ── Doctor ── */}
-        <Route element={<ProtectedRoute role="doctor" />}>
-          <Route element={<DoctorLayout />}>
-            <Route path="/doctor" element={<Navigate to="/doctor/dashboard" replace />} />
-            <Route path="/doctor/dashboard"         element={<DoctorDashboard />} />
-            <Route path="/doctor/consultations"     element={<DoctorConsultations />} />
-            <Route path="/doctor/patients"          element={<DoctorPatients />} />
-            <Route path="/doctor/patients/:id"      element={<PatientEHR />} />
-            <Route path="/doctor/calendar"          element={<DoctorCalendar />} />
-            <Route path="/doctor/financials"        element={<DoctorFinancials />} />
-            <Route path="/doctor/profile"           element={<DoctorProfilePage />} />
-            <Route path="/doctor/articles"          element={<DoctorArticlesPage />} />
+          {/* ── Doctor ── */}
+          <Route element={<ProtectedRoute role="doctor" />}>
+            <Route element={<DoctorLayout />}>
+              <Route path="/doctor" element={<Navigate to="/doctor/dashboard" replace />} />
+              <Route path="/doctor/dashboard"         element={<DoctorDashboard />} />
+              <Route path="/doctor/consultations"     element={<DoctorConsultations />} />
+              <Route path="/doctor/patients"          element={<DoctorPatients />} />
+              <Route path="/doctor/patients/:id"      element={<PatientEHR />} />
+              <Route path="/doctor/calendar"          element={<DoctorCalendar />} />
+              <Route path="/doctor/financials"        element={<DoctorFinancials />} />
+              <Route path="/doctor/profile"           element={<DoctorProfilePage />} />
+              <Route path="/doctor/articles"          element={<DoctorArticlesPage />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* ── Admin ── */}
-        <Route element={<ProtectedRoute role="admin" />}>
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="/admin/dashboard"      element={<AdminDashboard />} />
-            <Route path="/admin/patients"       element={<AdminPatients />} />
-            <Route path="/admin/doctors"        element={<AdminDoctors />} />
-            <Route path="/admin/financial"          element={<AdminFinancial />} />
-            <Route path="/admin/community"          element={<AdminCommunity />} />
-            <Route path="/admin/consultations"      element={<AdminConsultations />} />
-            <Route path="/admin/articles"           element={<AdminArticles />} />
-            <Route path="/admin/subscriptions"      element={<AdminSubscriptions />} />
-            <Route path="/admin/analytics"          element={<AdminAnalytics />} />
-            <Route path="/admin/settings"           element={<AdminSettings />} />
+          {/* ── Admin ── */}
+          <Route element={<ProtectedRoute role="admin" />}>
+            <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="/admin/dashboard"      element={<AdminDashboard />} />
+              <Route path="/admin/patients"       element={<AdminPatients />} />
+              <Route path="/admin/doctors"        element={<AdminDoctors />} />
+              <Route path="/admin/financial"          element={<AdminFinancial />} />
+              <Route path="/admin/community"          element={<AdminCommunity />} />
+              <Route path="/admin/consultations"      element={<AdminConsultations />} />
+              <Route path="/admin/articles"           element={<AdminArticles />} />
+              <Route path="/admin/subscriptions"      element={<AdminSubscriptions />} />
+              <Route path="/admin/analytics"          element={<AdminAnalytics />} />
+              <Route path="/admin/settings"           element={<AdminSettings />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Suspense>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
   )
 }
 

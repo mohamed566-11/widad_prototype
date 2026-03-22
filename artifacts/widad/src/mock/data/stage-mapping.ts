@@ -5,17 +5,17 @@ export type StageKey = 'pre_marriage' | 'marriage' | 'post_marriage'
 export const STAGE_META: Record<StageKey, { title: string; icon: string; desc: string }> = {
   pre_marriage: {
     title: 'قبل الزواج',
-    icon: '💍',
+    icon: 'Heart',
     desc: 'تحضيرات صحية وفحوصات ما قبل الزواج وبناء وعي صحي متوازن.',
   },
   marriage: {
     title: 'مرحلة الزواج',
-    icon: '💑',
+    icon: 'Users',
     desc: 'متابعة الخصوبة والحمل والاستشارات الطبية المتخصصة.',
   },
   post_marriage: {
     title: 'بعد الجواز',
-    icon: '👶',
+    icon: 'Baby',
     desc: 'دعم الأم بعد الولادة والتعافي وصحة الطفل.',
   },
 }
