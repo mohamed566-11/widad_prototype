@@ -38,7 +38,10 @@ export default function RoleSelect() {
             to="/demo" 
             className="relative overflow-hidden inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold bg-white text-primary hover:text-white transition-all duration-300 border border-primary/20 shadow-soft group z-10"
           >
-            <span className="absolute inset-0 w-full h-full bg-primary -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] z-[-1]" />
+            <span 
+              className="absolute inset-0 w-full h-full bg-primary -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300 z-[-1]" 
+              style={{ transitionTimingFunction: 'cubic-bezier(0.25,0.1,0.25,1)' }}
+            />
             تجربة سريعة (Demo)
           </Link>
         </m.header>

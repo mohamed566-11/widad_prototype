@@ -9,9 +9,9 @@ import { ScanFace, Activity, CalendarDays, FileText, ChevronLeft, BrainCircuit }
 import { cn } from '@/lib/utils';
 
 const SCAN_HISTORY = [
-  { id: 's1', date: '2026-02-18', title: 'Ø³ÙˆÙ†Ø§Ø± Ù…ØªØ§Ø¨Ø¹Ø© Ø§Ù„Ù†Ù…Ùˆ', summary: 'Ø§Ù„Ù†Ù…Ùˆ Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ Ø§Ù„Ø¹Ù…Ø± Ø§Ù„Ø­Ù…Ù„ÙŠ. ÙƒØ§ÙØ© Ø§Ù„Ù…Ø¤Ø´Ø±Ø§Øª Ø§Ù„Ø­ÙŠÙˆÙŠØ© Ù…Ù…ØªØ§Ø²Ø©.' },
-  { id: 's2', date: '2026-03-05', title: 'Ø³ÙˆÙ†Ø§Ø± ØªÙØµÙŠÙ„ÙŠ', summary: 'Ø§Ù„Ø­Ø±ÙƒØ© Ø¬ÙŠØ¯Ø© ÙˆÙ„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ù…Ù‚Ù„Ù‚Ø©. Ø§Ù„Ø³Ø§Ø¦Ù„ Ø§Ù„Ø£Ù…Ù†ÙŠÙˆØ³ÙŠ Ø¶Ù…Ù† Ø§Ù„Ø·Ø¨ÙŠØ¹ÙŠ.' },
-  { id: 's3', date: '2026-03-19', title: 'Ø³ÙˆÙ†Ø§Ø± Ù†Ø¨Ø¶ ÙˆØ¯ÙˆØ¨Ù„Ø±', summary: 'ØªØ¯ÙÙ‚ Ø§Ù„Ø¯Ù… Ø¶Ù…Ù† Ø§Ù„Ø­Ø¯ÙˆØ¯ Ø§Ù„Ø·Ø¨ÙŠØ¹ÙŠØ©. Ø§Ù„Ù†Ø¨Ø¶ Ù…Ù†ØªØ¸Ù… ÙˆÙ‚ÙˆÙŠ.' },
+  { id: 's1', date: '2026-02-18', title: 'Ã˜Â³Ã™Ë†Ã™â€ Ã˜Â§Ã˜Â± Ã™â€¦Ã˜ÂªÃ˜Â§Ã˜Â¨Ã˜Â¹Ã˜Â© Ã˜Â§Ã™â€žÃ™â€ Ã™â€¦Ã™Ë†', summary: 'Ã˜Â§Ã™â€žÃ™â€ Ã™â€¦Ã™Ë† Ã™â€¦Ã˜ÂªÃ™Ë†Ã˜Â§Ã™ÂÃ™â€š Ã™â€¦Ã˜Â¹ Ã˜Â§Ã™â€žÃ˜Â¹Ã™â€¦Ã˜Â± Ã˜Â§Ã™â€žÃ˜Â­Ã™â€¦Ã™â€žÃ™Å . Ã™Æ’Ã˜Â§Ã™ÂÃ˜Â© Ã˜Â§Ã™â€žÃ™â€¦Ã˜Â¤Ã˜Â´Ã˜Â±Ã˜Â§Ã˜Âª Ã˜Â§Ã™â€žÃ˜Â­Ã™Å Ã™Ë†Ã™Å Ã˜Â© Ã™â€¦Ã™â€¦Ã˜ÂªÃ˜Â§Ã˜Â²Ã˜Â©.' },
+  { id: 's2', date: '2026-03-05', title: 'Ã˜Â³Ã™Ë†Ã™â€ Ã˜Â§Ã˜Â± Ã˜ÂªÃ™ÂÃ˜ÂµÃ™Å Ã™â€žÃ™Å ', summary: 'Ã˜Â§Ã™â€žÃ˜Â­Ã˜Â±Ã™Æ’Ã˜Â© Ã˜Â¬Ã™Å Ã˜Â¯Ã˜Â© Ã™Ë†Ã™â€žÃ˜Â§ Ã˜ÂªÃ™Ë†Ã˜Â¬Ã˜Â¯ Ã™â€¦Ã™â€žÃ˜Â§Ã˜Â­Ã˜Â¸Ã˜Â§Ã˜Âª Ã™â€¦Ã™â€šÃ™â€žÃ™â€šÃ˜Â©. Ã˜Â§Ã™â€žÃ˜Â³Ã˜Â§Ã˜Â¦Ã™â€ž Ã˜Â§Ã™â€žÃ˜Â£Ã™â€¦Ã™â€ Ã™Å Ã™Ë†Ã˜Â³Ã™Å  Ã˜Â¶Ã™â€¦Ã™â€  Ã˜Â§Ã™â€žÃ˜Â·Ã˜Â¨Ã™Å Ã˜Â¹Ã™Å .' },
+  { id: 's3', date: '2026-03-19', title: 'Ã˜Â³Ã™Ë†Ã™â€ Ã˜Â§Ã˜Â± Ã™â€ Ã˜Â¨Ã˜Â¶ Ã™Ë†Ã˜Â¯Ã™Ë†Ã˜Â¨Ã™â€žÃ˜Â±', summary: 'Ã˜ÂªÃ˜Â¯Ã™ÂÃ™â€š Ã˜Â§Ã™â€žÃ˜Â¯Ã™â€¦ Ã˜Â¶Ã™â€¦Ã™â€  Ã˜Â§Ã™â€žÃ˜Â­Ã˜Â¯Ã™Ë†Ã˜Â¯ Ã˜Â§Ã™â€žÃ˜Â·Ã˜Â¨Ã™Å Ã˜Â¹Ã™Å Ã˜Â©. Ã˜Â§Ã™â€žÃ™â€ Ã˜Â¨Ã˜Â¶ Ã™â€¦Ã™â€ Ã˜ÂªÃ˜Â¸Ã™â€¦ Ã™Ë†Ã™â€šÃ™Ë†Ã™Å .' },
 ];
 
 type ViewerMode = 'front' | 'side' | 'top';
@@ -29,7 +29,7 @@ export default function FetalInsights() {
   const twins = user?.mockData?.fetalData;
   const fetusList = twins
     ? [twins.twin1, twins.twin2].filter(Boolean)
-    : [{ name: 'Ø§Ù„Ø¬Ù†ÙŠÙ† Ø§Ù„Ø£ÙˆÙ„', weight: '780 Ø¬Ø±Ø§Ù…', heartRate: 146 }];
+    : [{ name: 'Ã˜Â§Ã™â€žÃ˜Â¬Ã™â€ Ã™Å Ã™â€  Ã˜Â§Ã™â€žÃ˜Â£Ã™Ë†Ã™â€ž', weight: '780 Ã˜Â¬Ã˜Â±Ã˜Â§Ã™â€¦', heartRate: 146 }];
 
   return (
     <LazyMotion features={domAnimation}>
@@ -44,8 +44,8 @@ export default function FetalInsights() {
               <BrainCircuit className="w-4 h-4 animate-pulse" />
               Vision AI Preview
             </div>
-            <h1 className="text-3xl md:text-5xl font-black font-display text-foreground drop-shadow-sm mb-2">ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ø³ÙˆÙ†Ø§Ø± Ø§Ù„Ø¬Ù†ÙŠÙ†ÙŠ</h1>
-            <p className="text-lg text-muted-foreground max-w-xl">Ù‚Ø±Ø§Ø¡Ø© Ù…Ø¨Ø³Ø·Ø© ÙˆÙ…Ø¯Ø¹ÙˆÙ…Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù„Ø¢Ø®Ø± Ø§Ù„ÙØ­ÙˆØµØ§Øª Ù…Ø¹ Ø¹Ø±Ø¶ Ø«Ù„Ø§Ø«ÙŠ Ø§Ù„Ø£Ø¨Ø¹Ø§Ø¯ ØªØ¬Ø±ÙŠØ¨ÙŠ.</p>
+            <h1 className="text-3xl md:text-5xl font-black font-display text-foreground drop-shadow-sm mb-2">Ã˜ÂªÃ˜Â­Ã™â€žÃ™Å Ã™â€ž Ã˜Â§Ã™â€žÃ˜Â³Ã™Ë†Ã™â€ Ã˜Â§Ã˜Â± Ã˜Â§Ã™â€žÃ˜Â¬Ã™â€ Ã™Å Ã™â€ Ã™Å </h1>
+            <p className="text-lg text-muted-foreground max-w-xl">Ã™â€šÃ˜Â±Ã˜Â§Ã˜Â¡Ã˜Â© Ã™â€¦Ã˜Â¨Ã˜Â³Ã˜Â·Ã˜Â© Ã™Ë†Ã™â€¦Ã˜Â¯Ã˜Â¹Ã™Ë†Ã™â€¦Ã˜Â© Ã˜Â¨Ã˜Â§Ã™â€žÃ˜Â°Ã™Æ’Ã˜Â§Ã˜Â¡ Ã˜Â§Ã™â€žÃ˜Â§Ã˜ÂµÃ˜Â·Ã™â€ Ã˜Â§Ã˜Â¹Ã™Å  Ã™â€žÃ˜Â¢Ã˜Â®Ã˜Â± Ã˜Â§Ã™â€žÃ™ÂÃ˜Â­Ã™Ë†Ã˜ÂµÃ˜Â§Ã˜Âª Ã™â€¦Ã˜Â¹ Ã˜Â¹Ã˜Â±Ã˜Â¶ Ã˜Â«Ã™â€žÃ˜Â§Ã˜Â«Ã™Å  Ã˜Â§Ã™â€žÃ˜Â£Ã˜Â¨Ã˜Â¹Ã˜Â§Ã˜Â¯ Ã˜ÂªÃ˜Â¬Ã˜Â±Ã™Å Ã˜Â¨Ã™Å .</p>
           </div>
           
           <div className="relative z-10 glass-card px-6 py-4 rounded-2xl border border-primary/20 shadow-sm flex items-center gap-4">
@@ -53,7 +53,7 @@ export default function FetalInsights() {
                <CalendarDays className="w-6 h-6 text-primary" />
              </div>
              <div>
-               <p className="text-sm font-bold text-muted-foreground">Ø£Ø³Ø¨ÙˆØ¹ Ø§Ù„Ø­Ù…Ù„</p>
+               <p className="text-sm font-bold text-muted-foreground">Ã˜Â£Ã˜Â³Ã˜Â¨Ã™Ë†Ã˜Â¹ Ã˜Â§Ã™â€žÃ˜Â­Ã™â€¦Ã™â€ž</p>
                <p className="text-2xl font-black font-display text-primary">{user?.pregnancyWeek ?? 26}</p>
              </div>
           </div>
@@ -67,13 +67,13 @@ export default function FetalInsights() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 relative z-10">
                 <h2 className="text-xl md:text-2xl font-black font-display text-foreground flex items-center gap-3">
                   <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><ScanFace className="w-6 h-6 text-foreground" /></div>
-                  Ø§Ù„Ø¹Ø§Ø±Ø¶ Ø«Ù„Ø§Ø«ÙŠ Ø§Ù„Ø£Ø¨Ø¹Ø§Ø¯ <span className="text-sm bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20 font-bold ml-2 -translate-y-2 inline-block">BETA</span>
+                  Ã˜Â§Ã™â€žÃ˜Â¹Ã˜Â§Ã˜Â±Ã˜Â¶ Ã˜Â«Ã™â€žÃ˜Â§Ã˜Â«Ã™Å  Ã˜Â§Ã™â€žÃ˜Â£Ã˜Â¨Ã˜Â¹Ã˜Â§Ã˜Â¯ <span className="text-sm bg-primary/10 text-primary px-2 py-0.5 rounded-md border border-primary/20 font-bold ml-2 -translate-y-2 inline-block">BETA</span>
                 </h2>
                 <div className="flex bg-secondary/50 p-1 rounded-xl border border-border/50 backdrop-blur-sm self-stretch sm:self-auto">
                   {[
-                    { id: 'front', label: 'Ø£Ù…Ø§Ù…ÙŠ' },
-                    { id: 'side', label: 'Ø¬Ø§Ù†Ø¨ÙŠ' },
-                    { id: 'top', label: 'Ø¹Ù„ÙˆÙŠ' },
+                    { id: 'front', label: 'Ã˜Â£Ã™â€¦Ã˜Â§Ã™â€¦Ã™Å ' },
+                    { id: 'side', label: 'Ã˜Â¬Ã˜Â§Ã™â€ Ã˜Â¨Ã™Å ' },
+                    { id: 'top', label: 'Ã˜Â¹Ã™â€žÃ™Ë†Ã™Å ' },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -102,7 +102,7 @@ export default function FetalInsights() {
                     viewerMode === 'front' ? 'scale-100 rotate-0' : viewerMode === 'side' ? 'scale-105 rotate-12 drop-shadow-2xl' : 'scale-95 -rotate-6'
                   )}
                   style={{ transitionTimingFunction: 'cubic-bezier(0.34,1.56,0.64,1)' }}
-
+                >
                   <div className="relative w-56 h-56 md:w-64 md:h-64 group-hover/viewer:scale-105 transition-transform duration-1000">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/60 to-accent/60 blur-[30px] opacity-60 mix-blend-multiply dark:mix-blend-screen animate-pulse" />
                     <div className="absolute inset-4 rounded-full bg-white/10 dark:bg-black/10 border border-white/30 dark:border-white/10 backdrop-blur-sm shadow-[inset_0_0_50px_rgba(255,255,255,0.2)]" />
@@ -137,7 +137,7 @@ export default function FetalInsights() {
             <m.section variants={fadeUpVariant} className="glass-panel p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm">
               <h2 className="text-xl md:text-2xl font-black font-display text-foreground mb-6 flex items-center gap-3">
                  <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><Activity className="w-6 h-6 text-foreground" /></div>
-                 Ø§Ù„Ù‚ÙŠØ§Ø³Ø§Øª Ø§Ù„Ø­ÙŠÙˆÙŠØ© Ø§Ù„Ø­Ø§Ù„ÙŠØ©
+                 Ã˜Â§Ã™â€žÃ™â€šÃ™Å Ã˜Â§Ã˜Â³Ã˜Â§Ã˜Âª Ã˜Â§Ã™â€žÃ˜Â­Ã™Å Ã™Ë†Ã™Å Ã˜Â© Ã˜Â§Ã™â€žÃ˜Â­Ã˜Â§Ã™â€žÃ™Å Ã˜Â©
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 {fetusList.map((fetus: any, index: number) => (
@@ -146,18 +146,18 @@ export default function FetalInsights() {
                     
                     <div className="flex justify-between items-center relative z-10">
                       <p className="font-black font-display text-lg text-foreground flex items-center gap-2">
-                        <span className="text-2xl">ðŸ‘¶</span> {fetus.name}
+                        <span className="text-2xl">Ã°Å¸â€˜Â¶</span> {fetus.name}
                       </p>
                       <span className="font-bold text-sm bg-secondary px-2 py-1 rounded-lg text-muted-foreground border border-border/50">#0{index + 1}</span>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3 relative z-10">
                        <div className="bg-white/50 dark:bg-black/20 p-3 rounded-xl border border-border/50">
-                         <p className="text-xs font-bold text-muted-foreground mb-1">Ø§Ù„ÙˆØ²Ù† Ø§Ù„ØªÙ‚Ø¯ÙŠØ±ÙŠ</p>
+                         <p className="text-xs font-bold text-muted-foreground mb-1">Ã˜Â§Ã™â€žÃ™Ë†Ã˜Â²Ã™â€  Ã˜Â§Ã™â€žÃ˜ÂªÃ™â€šÃ˜Â¯Ã™Å Ã˜Â±Ã™Å </p>
                          <p className="text-lg font-black font-display text-foreground">{fetus.weight}</p>
                        </div>
                        <div className="bg-white/50 dark:bg-black/20 p-3 rounded-xl border border-border/50">
-                         <p className="text-xs font-bold text-muted-foreground mb-1">Ù…Ø¹Ø¯Ù„ Ø§Ù„Ù†Ø¨Ø¶</p>
+                         <p className="text-xs font-bold text-muted-foreground mb-1">Ã™â€¦Ã˜Â¹Ã˜Â¯Ã™â€ž Ã˜Â§Ã™â€žÃ™â€ Ã˜Â¨Ã˜Â¶</p>
                          <p className="text-lg font-black font-display text-foreground flex items-baseline gap-1">
                            {fetus.heartRate} <span className="text-xs text-muted-foreground">bpm</span>
                          </p>
@@ -166,7 +166,7 @@ export default function FetalInsights() {
                     
                     <div className="relative z-10">
                       <div className="flex justify-between text-xs font-bold text-muted-foreground mb-1">
-                        <span>Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ù†Ø¨Ø¶</span>
+                        <span>Ã™â€¦Ã˜Â³Ã˜ÂªÃ™Ë†Ã™â€° Ã˜Â§Ã™â€žÃ™â€ Ã˜Â¨Ã˜Â¶</span>
                         <span>{Math.round((Number(fetus.heartRate) / 180) * 100)}%</span>
                       </div>
                       <div className="h-2.5 rounded-full bg-secondary overflow-hidden border border-border/50 p-px">
@@ -190,7 +190,7 @@ export default function FetalInsights() {
             <m.section variants={fadeUpVariant} className="glass-panel p-6 rounded-[2.5rem] border border-border shadow-sm">
               <h3 className="text-xl font-black font-display text-foreground mb-4 flex items-center gap-3">
                  <div className="p-2 bg-secondary rounded-xl shadow-inner border border-border"><FileText className="w-5 h-5 text-foreground" /></div>
-                 Ø³Ø¬Ù„ Ø§Ù„ÙØ­ÙˆØµØ§Øª
+                 Ã˜Â³Ã˜Â¬Ã™â€ž Ã˜Â§Ã™â€žÃ™ÂÃ˜Â­Ã™Ë†Ã˜ÂµÃ˜Â§Ã˜Âª
               </h3>
               <div className="space-y-3">
                 {SCAN_HISTORY.map((scan) => (
@@ -220,7 +220,7 @@ export default function FetalInsights() {
                
               <h3 className="text-xl font-black font-display text-foreground flex items-center gap-3 relative z-10">
                  <div className="p-1.5 bg-primary/10 rounded-lg shadow-sm border border-primary/20"><BrainCircuit className="w-5 h-5 text-primary" /></div>
-                 Ù…Ù„Ø®Øµ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ
+                 Ã™â€¦Ã™â€žÃ˜Â®Ã˜Âµ Ã˜Â§Ã™â€žÃ˜Â°Ã™Æ’Ã˜Â§Ã˜Â¡ Ã˜Â§Ã™â€žÃ˜Â§Ã˜ÂµÃ˜Â·Ã™â€ Ã˜Â§Ã˜Â¹Ã™Å 
               </h3>
               
               <div className="rounded-[1.25rem] bg-white/50 dark:bg-black/20 border border-border p-5 relative z-10 shadow-sm transition-all duration-300 hover:shadow-md">
@@ -233,10 +233,10 @@ export default function FetalInsights() {
               
               <div className="rounded-[1.25rem] bg-gradient-to-r from-emerald-500/10 to-green-500/5 border border-emerald-500/20 p-5 relative z-10 shadow-sm">
                 <p className="font-black font-display text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2">
-                   <span className="text-xl">ðŸ’¡</span> ØªÙˆØµÙŠØ© ÙˆØ¯Ø§Ø¯
+                   <span className="text-xl">Ã°Å¸â€™Â¡</span> Ã˜ÂªÃ™Ë†Ã˜ÂµÃ™Å Ã˜Â© Ã™Ë†Ã˜Â¯Ã˜Â§Ã˜Â¯
                 </p>
                 <p className="text-sm font-medium text-emerald-800/80 dark:text-emerald-200/80 leading-relaxed">
-                  Ø§Ø³ØªÙ…Ø±ÙŠ Ø¹Ù„Ù‰ Ù†ÙØ³ Ù†Ù…Ø· Ø§Ù„Ù…ØªØ§Ø¨Ø¹Ø©ØŒ ÙˆÙƒØ±Ø±ÙŠ Ø§Ù„Ø³ÙˆÙ†Ø§Ø± Ø®Ù„Ø§Ù„ Ø£Ø³Ø¨ÙˆØ¹ÙŠÙ† Ø£Ùˆ Ø­Ø³Ø¨ ØªÙˆØµÙŠØ© Ø§Ù„Ø·Ø¨ÙŠØ¨Ø© Ø§Ù„Ù…Ø¹Ø§Ù„Ø¬Ø©.
+                  Ã˜Â§Ã˜Â³Ã˜ÂªÃ™â€¦Ã˜Â±Ã™Å  Ã˜Â¹Ã™â€žÃ™â€° Ã™â€ Ã™ÂÃ˜Â³ Ã™â€ Ã™â€¦Ã˜Â· Ã˜Â§Ã™â€žÃ™â€¦Ã˜ÂªÃ˜Â§Ã˜Â¨Ã˜Â¹Ã˜Â©Ã˜Å’ Ã™Ë†Ã™Æ’Ã˜Â±Ã˜Â±Ã™Å  Ã˜Â§Ã™â€žÃ˜Â³Ã™Ë†Ã™â€ Ã˜Â§Ã˜Â± Ã˜Â®Ã™â€žÃ˜Â§Ã™â€ž Ã˜Â£Ã˜Â³Ã˜Â¨Ã™Ë†Ã˜Â¹Ã™Å Ã™â€  Ã˜Â£Ã™Ë† Ã˜Â­Ã˜Â³Ã˜Â¨ Ã˜ÂªÃ™Ë†Ã˜ÂµÃ™Å Ã˜Â© Ã˜Â§Ã™â€žÃ˜Â·Ã˜Â¨Ã™Å Ã˜Â¨Ã˜Â© Ã˜Â§Ã™â€žÃ™â€¦Ã˜Â¹Ã˜Â§Ã™â€žÃ˜Â¬Ã˜Â©.
                 </p>
               </div>
             </m.section>
