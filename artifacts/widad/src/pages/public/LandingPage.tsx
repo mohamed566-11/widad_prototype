@@ -1,9 +1,8 @@
 // DESIGN DECISION: Soft Futurism + Glassmorphism 2.0
-// Implemented parallax scrolling with Framer Motion `useScroll` and `useTransform`.
-// Hero features staggered text split-reveals and animated glowing orbs.
+// Hero features side-by-side logo + content layout with subtle animations.
 // Cards utilize magnetic hover physics and translucent glass layers.
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { m, LazyMotion, domAnimation, useScroll, useTransform } from 'framer-motion'
 import { Heart, Activity, Shield, ArrowLeft, Bot, Stethoscope, Users, BookOpenText, Sparkles } from 'lucide-react'
@@ -12,34 +11,10 @@ import { fadeUpVariant, staggerContainer, customEase, textSplitVariant } from '@
 export default function LandingPage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] })
-  const [logoHovered, setLogoHovered] = useState(false)
 
   // Parallax transforms
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacityHero = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-
-  // ❤️ Heart particle config
-  const HEART_PARTICLES = Array.from({ length: 18 }, (_, i) => {
-    const angle = (i / 18) * Math.PI * 2
-    const dist = 80 + Math.random() * 120
-    const colors = ['#ec4899', '#f43f5e', '#fb7185', '#e879f9', '#c084fc', '#f472b6', '#fda4af']
-    return {
-      id: i,
-      x: Math.cos(angle) * dist,
-      y: Math.sin(angle) * dist - 30,
-      size: 0.6 + Math.random() * 1.2,
-      px: 14 + Math.floor(Math.random() * 18),
-      color: colors[i % colors.length],
-      rotate: -180 + Math.random() * 360,
-      duration: 0.7 + Math.random() * 0.6,
-      delay: Math.random() * 0.2,
-    }
-  })
-
-  // Split text for hero
-  const titleText = "رفيقتك الصحية في"
-  const subtitleText = "كل مرحلة من حياتك"
-
 
   return (
     <LazyMotion features={domAnimation}>
@@ -50,102 +25,89 @@ export default function LandingPage() {
         <div className="fixed bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-secondary/20 rounded-full blur-[100px] pointer-events-none animate-float" style={{ animationDuration: '12s' }} />
 
         {/* 🌟 Hero Section */}
-        <section className="relative min-h-[95vh] flex items-center justify-center px-6 overflow-hidden">
+        <section className="relative min-h-[95vh] flex items-start justify-center px-6 pt-7 overflow-hidden">
           <m.div style={{ y: yBg, opacity: opacityHero }} className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.03%22/%3E%3C/svg%3E')] opacity-50 mixing-blend-overlay"></div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
           </m.div>
 
-          <div className="max-w-5xl mx-auto relative z-10 text-center mt-20">
+          <div className="max-w-7xl mx-auto relative z-10 w-full">
             <m.div variants={staggerContainer} initial="hidden" animate="show" className="flex flex-col items-center">
 
-              {/* ======= LOGO + HEART BURST ======= */}
-              <m.div
-                variants={fadeUpVariant}
-                className="mb-16 w-full max-w-3xl px-4 relative flex items-center justify-center"
-                onHoverStart={() => setLogoHovered(true)}
-                onHoverEnd={() => setLogoHovered(false)}
-              >
-                {/* Glow halo behind logo */}
-                <m.div
-                  animate={logoHovered ? { opacity: 1, scale: 1.3 } : { opacity: 0, scale: 1 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className="absolute inset-0 bg-primary/20 rounded-full blur-[80px] pointer-events-none"
-                />
-
-                {/* Logo image — no box */}
-                <m.img
-                  src={`${import.meta.env.BASE_URL}logo.png`}
-                  alt="Widad Logo"
-                  animate={{ y: [0, -18, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                  whileHover={{ scale: 1.06 }}
-                  className="w-full h-auto object-contain relative z-10 cursor-pointer"
-                  style={{ filter: 'drop-shadow(0 0 40px rgba(236,72,153,0.35)) brightness(1.1) saturate(1.15)' }}
-                />
-
-                {/* Heart particle burst on hover */}
-                {logoHovered && HEART_PARTICLES.map((p) => (
-                  <m.div
-                    key={p.id}
-                    className="absolute pointer-events-none z-20"
-                    style={{ left: '50%', top: '50%' }}
-                    initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
-                    animate={{
-                      x: p.x,
-                      y: p.y,
-                      opacity: [1, 1, 0],
-                      scale: [0, p.size, 0],
-                      rotate: [0, p.rotate],
-                    }}
-                    transition={{ duration: p.duration, ease: 'easeOut', delay: p.delay }}
-                  >
-                    <Heart
-                      className="fill-current"
-                      style={{ color: p.color, width: `${p.px}px`, height: `${p.px}px` }}
-                    />
-                  </m.div>
-                ))}
-              </m.div>
-
-              <m.div variants={fadeUpVariant} className="px-5 py-2.5 rounded-full glass-panel text-primary font-bold text-sm mb-8 inline-flex items-center gap-2 shadow-[var(--shadow-glow)] border border-primary/20">
-                <Sparkles className="w-4 h-4" />
+              {/* ======= Badge - Centered above both sections ======= */}
+              <m.div variants={fadeUpVariant} className="px-6 py-3 rounded-full glass-panel text-primary font-bold text-base md:text-lg mt-10 mb-2 inline-flex items-center gap-2 shadow-[var(--shadow-glow)] border border-primary/20">
+                <Sparkles className="w-5 h-5" />
                 المنصة الأولى لصحة المرأة العربية
               </m.div>
 
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-display text-foreground leading-[1.1] mb-6 tracking-tight drop-shadow-sm flex flex-col items-center gap-2">
-                <div className="flex flex-wrap justify-center overflow-hidden pb-2">
-                  {titleText.split(" ").map((word, i) => (
-                    <m.span key={i} custom={i} variants={textSplitVariant} className="mx-2 inline-block">
-                      {word}
-                    </m.span>
-                  ))}
+              {/* ======= Side by side layout ======= */}
+              <div className="flex flex-col lg:flex-row items-center justify-between w-full">
+
+                {/* ======= LOGO (Right side in RTL) ======= */}
+                <m.div
+                  variants={fadeUpVariant}
+                  className="w-full lg:w-1/2 flex justify-center lg:justify-start mt-[80px] self-center"
+                >
+                  <m.img
+                    src={`${import.meta.env.BASE_URL}logo.png`}
+                    alt="Widad Logo"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    whileHover={{ scale: 1.03 }}
+                    className="w-full max-w-[450px] lg:max-w-[550px] h-auto object-contain cursor-pointer"
+                    style={{ filter: 'drop-shadow(0 0 30px rgba(236,72,153,0.2)) brightness(1.05) saturate(1.1)' }}
+                  />
+                </m.div>
+
+                {/* ======= Content (Left side in RTL) ======= */}
+                <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-end text-center lg:text-right mt-12 lg:-mt-[280px] lg:self-center">
+
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black font-display text-foreground leading-[1.15] mb-6 tracking-tight drop-shadow-sm flex flex-col items-center lg:items-end gap-2 text-right">
+                    <div className="flex flex-wrap justify-center lg:justify-end overflow-hidden pb-2">
+                      {["رفيقتك", "الصحية", "في"].map((word, i) => (
+                        <m.span key={i} custom={i} variants={textSplitVariant} className="mx-2 inline-block">
+                          {word}
+                        </m.span>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap justify-center lg:justify-end overflow-hidden">
+                      {["كل", "مرحلة", "من", "حياتك"].map((word, i) => (
+                        <m.span key={i} custom={i + 3} variants={textSplitVariant} className="mx-2 inline-block text-transparent bg-clip-text bg-gradient-to-l from-primary via-accent to-secondary animate-gradient-x p-1">
+                          {word}
+                        </m.span>
+                      ))}
+                    </div>
+                  </h1>
+
+                  <m.p variants={fadeUpVariant} className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-xl leading-relaxed lg:text-right">
+                    منصة متكاملة تدعمك بالذكاء الاصطناعي والاستشارات الطبية والمجتمع الآمن، من قبل الزواج وحتى الأمومة.
+                  </m.p>
+
+                  <m.div variants={fadeUpVariant} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto lg:self-end">
+                    <Link to="/demo" className="group relative overflow-hidden w-full sm:w-auto px-8 py-4 rounded-[1.25rem] font-bold text-xl bg-primary text-primary-foreground shadow-[var(--shadow-glow)] hover:shadow-lg transition-all flex items-center justify-center gap-3">
+                      <span className="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                      ابدئي رحلتك الآن
+                      <ArrowLeft className="w-6 h-6 transition-transform group-hover:-translate-x-1" />
+                    </Link>
+                    <Link to="/auth" className="w-full sm:w-auto px-8 py-4 rounded-[1.25rem] font-bold text-xl glass-card text-foreground transition-all flex items-center justify-center">
+                      تسجيل الدخول للمنصة
+                    </Link>
+                  </m.div>
+
                 </div>
-                <div className="flex flex-wrap justify-center overflow-hidden">
-                  {subtitleText.split(" ").map((word, i) => (
-                    <m.span key={i} custom={i + 4} variants={textSplitVariant} className="mx-2 inline-block text-transparent bg-clip-text bg-gradient-to-l from-primary via-accent to-secondary animate-gradient-x p-1">
-                      {word}
-                    </m.span>
-                  ))}
-                </div>
-              </h1>
 
-              <m.p variants={fadeUpVariant} className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-                منصة متكاملة تدعمك بالذكاء الاصطناعي والاستشارات الطبية والمجتمع الآمن، من قبل الزواج وحتى الأمومة.
-              </m.p>
+              </div>{/* end side-by-side */}
 
-              <m.div variants={fadeUpVariant} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                <Link to="/demo" className="group relative overflow-hidden w-full sm:w-auto px-8 py-4 rounded-[1.25rem] font-bold text-lg bg-primary text-primary-foreground shadow-[var(--shadow-glow)] hover:shadow-lg transition-all flex items-center justify-center gap-3">
-                  <span className="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                  ابدئي رحلتك الآن
-                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-                </Link>
-                <Link to="/auth" className="w-full sm:w-auto px-8 py-4 rounded-[1.25rem] font-bold text-lg glass-card text-foreground transition-all flex items-center justify-center">
-                  تسجيل الدخول للمنصة
-                </Link>
-              </m.div>
+            </m.div>
 
-              <m.div variants={fadeUpVariant} className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
+            {/* Stats row - full width below the hero split */}
+            <m.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+            >
+              <m.div variants={fadeUpVariant} className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl mx-auto">
                 {[
                   { k: '95%', v: 'رضا المستخدمين' },
                   { k: '24/7', v: 'مساعد ذكي متاح' },
@@ -163,8 +125,8 @@ export default function LandingPage() {
                   </m.div>
                 ))}
               </m.div>
-
             </m.div>
+
           </div>
         </section>
 
